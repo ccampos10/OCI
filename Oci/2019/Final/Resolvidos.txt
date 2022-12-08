@@ -1,0 +1,2 @@
+Resueltos: a;b;c
+Pendientes: d
