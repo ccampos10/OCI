@@ -77,9 +77,12 @@ int main() {
     }
     crear_distancias();
     dijkstra(m-1);
+    int menorPiso = -1;
     for(int i = 0; i < edificios[edificios.size()-1].size(); i++){
-        cout << edificios[edificios.size()-1][i] << endl;
+        if(menorPiso == -1) menorPiso = edificios[edificios.size()-1][i];
+        else if(distancias[menorPiso] > distancias[edificios[edificios.size()-1][i]]) menorPiso = edificios[edificios.size()-1][i];
     }
+    cout << distancias[menorPiso] << '\n';
 
     return 0;
 }

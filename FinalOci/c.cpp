@@ -18,11 +18,11 @@ void crear_piso(int p, int q){
 
 void dijkstra(int inicio, int final){
     int edificio = 0;
-    malla[edificio][inicio].second = 0;
+    malla[edificio][0].second = 0;
     priority_queue<pair<int,int>,
                     vector<pair<int,int>>,
                     greater<pair<int,int>>> siguiente;
-    siguiente.push(pair<int,int>(0,inicio));
+    siguiente.push(pair<int,int>(0,0));
     while(!siguiente.empty()){
         int piso = siguiente.top().second;
         int distancia = siguiente.top().first;
@@ -30,10 +30,10 @@ void dijkstra(int inicio, int final){
         if(edificio < final && distancia <= malla[edificio][piso].second){
             for(int i = 0; i < malla[edificio+1].size(); i++){
                 int peso = 0;
-                if(piso < malla[edificio+1][i].first) peso = malla[edificio+1][i].first - piso;
+                if(malla[edificio][piso].first < malla[edificio+1][i].first) peso = malla[edificio+1][i].first - malla[edificio][piso].first;
                 if(malla[edificio+1][i].second > distancia + peso){
                     malla[edificio+1][i].second = distancia + peso;
-                    siguiente.push(pair<int,int>(distancia + peso, malla[edificio+1][i].first));
+                    siguiente.push(pair<int,int>(distancia + peso, i));
                 }
             }
         }
@@ -49,10 +49,10 @@ int main(){
         cin >> p;
         for(int j = 0; j < p; j++){
             cin >> q;
-            crear_piso(i, q);
+            if((i == 0 && q == m-1) || (i != 0)) crear_piso(i, q);
         }
     }
-    dijkstra(m-1, n);
+    dijkstra(m-1, n-1);
     int pesoMin;
     for(int i = 0; i < malla[n].size(); i){
         if(i == 0) pesoMin = malla[n][i].second;
